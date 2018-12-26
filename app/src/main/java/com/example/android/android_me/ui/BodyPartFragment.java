@@ -1,18 +1,18 @@
 /*
-* Copyright (C) 2017 The Android Open Source Project
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*  	http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright (C) 2017 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  	http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package com.example.android.android_me.ui;
 
@@ -25,17 +25,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.android.android_me.R;
-import com.example.android.android_me.data.AndroidImageAssets;
 
 import java.util.List;
 
 public class BodyPartFragment extends Fragment {
 
+    // Tag for logging
+    private static final String TAG = "BodyPartFragment";
+
+    // Variables to store a list of image resources and the index of the image that this fragment displays
+    private List<Integer> mImageIds;
+    private int mListIndex;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the fragment
      */
-    private static List< Integer > mImageId;
-    private static int mIndex;
     public BodyPartFragment() {
     }
 
@@ -51,19 +55,28 @@ public class BodyPartFragment extends Fragment {
         // Get a reference to the ImageView in the fragment layout
         ImageView imageView = (ImageView) rootView.findViewById(R.id.body_part_image_view);
 
-        if(mImageId!=null)
-            imageView.setImageResource(mImageId.get(mIndex));
-        else
-            Log.e("BodyPartFragment","Image Id is null");
+        // If a list of image ids exists, set the image resource to the correct item in that list
+        // Otherwise, create a Log statement that indicates that the list was not found
+        if(mImageIds != null){
+            // Set the image resource to the list item at the stored index
+            imageView.setImageResource(mImageIds.get(mListIndex));
+        } else {
+            Log.v(TAG, "This fragment has a null list of image id's");
+        }
+
         // Return the rootView
         return rootView;
     }
 
-    public void setImageIds(List<Integer> ImageId) {
-        mImageId = ImageId;
+    // Setter methods for keeping track of the list images this fragment can display and which image
+    // in the list is currently being displayed
+
+    public void setImageIds(List<Integer> imageIds) {
+        mImageIds = imageIds;
     }
 
-    public void setmIndex(int Index) {
-        mIndex = Index;
+    public void setListIndex(int index) {
+        mListIndex = index;
     }
+
 }
